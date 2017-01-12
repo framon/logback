@@ -150,6 +150,12 @@ public class RollingFileAppender<E> extends FileAppender<E> {
         if (triggeringPolicy != null)
             triggeringPolicy.stop();
         super.stop();
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> map = (Map<String, String>) context.getObject(CoreConstants.RFA_FILENAME_PATTERN_COLLISION_MAP);
+        if (map != null) {
+            map.remove(getName());
+        }
     }
 
     @Override

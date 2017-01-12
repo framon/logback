@@ -159,6 +159,17 @@ public class FileAppender<E> extends OutputStreamAppender<E> {
         addError("'" + optionName + "' option has the same value \"" + optionValue + "\" as that given for appender [" + appenderName + "] defined earlier.");
     }
 
+    @Override
+    public void stop() {
+        super.stop();
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> map = (Map<String, String>) context.getObject(CoreConstants.FA_FILENAME_COLLISION_MAP);
+        if (map != null) {
+            map.remove(getName());
+        }
+    }
+
     /**
      * <p>
      * Sets and <i>opens</i> the file where the log output will go. The specified
